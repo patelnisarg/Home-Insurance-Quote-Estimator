@@ -1,42 +1,20 @@
-def number_of_years_rating_factor(home_age: int) -> float:
-	num_of_years_rating_factor_value = None
-	if 0 <= home_age <= 10:
-		num_of_years_rating_factor_value = 1.00
-	elif 11 <= home_age <= 35:
-		num_of_years_rating_factor_value = 1.50
-	elif 36 <= home_age <= 100:
-		num_of_years_rating_factor_value = 1.80
-	elif home_age > 100:
-		num_of_years_rating_factor_value = 1.95
-	return num_of_years_rating_factor_value
+from bisect import bisect_left
+
+class Interpolate(object):
+    def __init__(self, x_list, y_list):
+        if any(y - x <= 0 for x, y in zip(x_list, x_list[1:])):
+            raise ValueError("x_list must be in strictly ascending order!")
+        x_list = self.x_list = list(map(float, x_list))
+        y_list = self.y_list = list(map(float, y_list))
+        intervals = zip(x_list, x_list[1:], y_list, y_list[1:])
+        self.slopes = [(y2 - y1)/(x2 - x1) for x1, x2, y1, y2 in intervals]
+
+    def __getitem__(self, x):
+        i = bisect_left(self.x_list, x) - 1
+        return self.y_list[i] + self.slopes[i] * (x - self.x_list[i])
 
 
-def roof_type_rating_factor(roof_type: str) -> float:
-	roof_type_rating_factor_value = None
-	if roof_type == "Asphalt Shingles":
-		roof_type_rating_factor_value = 1.00
-	elif roof_type == "Tin":
-		roof_type_rating_factor_value = 1.70
-	elif roof_type == "Wood":
-		roof_type_rating_factor_value = 2.00
-	return roof_type_rating_factor_value
-
-
-def number_of_units_rating_factor(unit_num: int) -> float:
-	number_of_units_rating_factor_value = None
-	if unit_num == 1:
-		number_of_units_rating_factor_value = 1.00
-	elif unit_num == 2:
-		number_of_units_rating_factor_value = 0.80
-	elif unit_num == 3:
-		number_of_units_rating_factor_value = 0.80
-	elif unit_num == 4:
-		number_of_units_rating_factor_value = 0.80
-	return number_of_units_rating_factor_value
-
-
-def is_discount_given(partner_discount: str) -> bool:
-	if partner_discount == "Y":
-		return True
-	else:
-		return False
+i = Interpolate([100000,150000,200000,250000,300000,350000], [0.971,1.104,1.314,1.471,1.579,1.761])
+# Get the interpolated value at x = 4:
+y = i[280000]
+print(round(y, 3))

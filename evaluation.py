@@ -1,18 +1,29 @@
-from read_json import JSONData as jd
 import models
-import utils
 
 
 class Evaluation:
 
-	@staticmethod
-	def calculate_premium() -> float:
+	home_age_rating_factor_value = None
+	roof_type_rating_factor_value = None
+	num_of_unit_factor_value = None
+	discount_offered = None
+
+	def __init__(self, customer_data):
+		self.customer_id = customer_data.customer_id
+		# self.dwelling_coverage = customer_data.dwelling_coverage
+		self.home_age_rating_factor_value = customer_data.home_age_rating_factor_value
+		self.roof_type_rating_factor_value = customer_data.roof_type_rating_factor_value
+		self.num_of_unit_factor_value = customer_data.num_of_unit_factor_value
+		self.discount_offered = customer_data.discount_offered
+
+	def calculate_premium(self) -> float:
 		base_premium = models.BasePremium.Base_Premium.value
-		home_age_rating_factor = utils.number_of_years_rating_factor(jd.home_age)
-		roof_type_rating_factor = utils.roof_type_rating_factor(jd.roof_type)
-		num_of_unit_factor = utils.number_of_units_rating_factor(jd.number_of_units)
-		discount_offered = utils.is_discount_given(jd.partner_discount)
-		discount = 0.05
+		home_age_rating_factor = self.home_age_rating_factor_value
+		roof_type_rating_factor = self.roof_type_rating_factor_value
+		num_of_unit_factor = self.num_of_unit_factor_value
+		discount_offered = self.discount_offered
+		discount = models.BaseDiscount.Base_Discount.value
+
 		monthly_premium = (base_premium * 0.971 * home_age_rating_factor * roof_type_rating_factor * num_of_unit_factor)
 
 		if discount_offered:
@@ -22,5 +33,3 @@ class Evaluation:
 		else:
 			return round(monthly_premium)
 
-
-print(Evaluation.calculate_premium())
