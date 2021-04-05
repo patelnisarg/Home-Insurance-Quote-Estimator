@@ -18,6 +18,10 @@ class Evaluation:
 		self.discount_offered = customer_data.discount_offered
 
 	def calculate_premium(self) -> float:
+		"""
+
+		:return: Calculated Final Premium Amount
+		"""
 		base_premium = models.BasePremium.Base_Premium.value
 		home_age_rating_factor = self.home_age_rating_factor_value
 		dwelling_coverage = self.dwelling_coverage_rating_factor_value
@@ -27,7 +31,7 @@ class Evaluation:
 		discount = models.BaseDiscount.Base_Discount.value
 
 		monthly_premium = (
-					base_premium * dwelling_coverage * home_age_rating_factor * roof_type_rating_factor * num_of_unit_factor)
+				base_premium * dwelling_coverage * home_age_rating_factor * roof_type_rating_factor * num_of_unit_factor)
 
 		if discount_offered:
 			discount_amount = monthly_premium * discount

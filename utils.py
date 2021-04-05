@@ -22,6 +22,11 @@ class Calculations:
 
     @staticmethod
     def number_of_years_rating_factor(home_age: int) -> float:
+        """
+
+        :param home_age: House Age
+        :return: Rating Factor related to the House Age
+        """
         num_of_years_rating_factor_value = None
         if 0 <= home_age <= 10:
             num_of_years_rating_factor_value = 1.00
@@ -36,16 +41,31 @@ class Calculations:
 
     @staticmethod
     def roof_type_rating_factor(roof_type: str) -> float:
+        """
+
+        :param roof_type: Type of the Roof
+        :return: Rating Factor related to the type of the roof
+        """
         roof_types = {"Asphalt Shingles": 1.00, "Tin": 1.70, "Wood": 2.00}
         return roof_types[roof_type]
 
     @staticmethod
     def number_of_units_rating_factor(unit_num: int) -> float:
+        """
+
+        :param unit_num: Number of Units
+        :return: Rating Factor related to the number of units
+        """
         num_units = {1: 1.00, 2: 0.80, 3: 0.80, 4: 0.80}
         return num_units[unit_num]
 
     @staticmethod
     def is_discount_given(partner_discount: str) -> bool:
+        """
+
+        :param partner_discount: Y if discount is given, N if discount is not offered
+        :return: bool value True if discount offered, False if not
+        """
         if partner_discount == "Y":
             return True
         else:
