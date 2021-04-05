@@ -1,5 +1,7 @@
 class JsonData:
-
+	"""
+	Parse JSON Data to String
+	"""
 	customer_id = None
 	dwelling_coverage = None
 	home_age = None

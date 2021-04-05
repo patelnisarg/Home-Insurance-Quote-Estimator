@@ -11,10 +11,15 @@ data_JSON = {
 	"PartnerDiscount": "Y",
 }
 
+# Passing JSON data to be parsed to string values
 jd = JsonData(data_JSON)
 
+# Creating a Customer Object to perform evaluation
 c = Customer(jd)
 c.calculate()
+
+# Calculating the Premium Amount
 eval = Evaluation(c)
 
+# Output
 print(f'The Final Quoted Premium Amount is: {eval.calculate_premium()}')
