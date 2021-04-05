@@ -14,3 +14,4 @@ class JsonData:
 		self.roof_type = custom_dict["RoofType"]
 		self.number_of_units = custom_dict["NumberOfUnits"]
 		self.partner_discount = custom_dict["PartnerDiscount"]
+
